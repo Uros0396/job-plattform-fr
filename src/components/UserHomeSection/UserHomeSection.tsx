@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-const UserHomepageSection: React.FC = () => {
+const UserHomeSection: React.FC = () => {
   const redirectToGoogle = () => {
     window.location.href = `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/google`;
   };
@@ -19,7 +19,7 @@ const UserHomepageSection: React.FC = () => {
         maiores repellat porro.
       </p>
 
-      <Link href="/RegisterFormUser">
+      <Link href="/user-register-page">
         <button className="w-full py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
           Register
         </button>
@@ -36,4 +36,4 @@ const UserHomepageSection: React.FC = () => {
   );
 };
 
-export default UserHomepageSection;
+export default UserHomeSection;

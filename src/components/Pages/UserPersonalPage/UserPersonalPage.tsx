@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { getData } from "../../../reducer/getDataUser";
 import UserForm from "../../UserForm/UserForm";
 
-const UpdatePersonalPage: React.FC = () => {
+const UserPersonalPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [editedUser, setEditedUser] = useState<any>(null);
 
@@ -128,4 +128,4 @@ const UpdatePersonalPage: React.FC = () => {
   );
 };
 
-export default UpdatePersonalPage;
+export default UserPersonalPage;

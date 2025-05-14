@@ -14,7 +14,7 @@ const LoginUserOrCompany: React.FC = () => {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useRouter();
+  const router = useRouter();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,10 +43,10 @@ const LoginUserOrCompany: React.FC = () => {
         if (data.user) {
           localStorage.setItem("userId", data.user._id);
           localStorage.setItem("registeredUserData", JSON.stringify(data.user));
-          navigate.push("/UpdatePersonalPage");
+          router.push("/UserPersonalPage");
         } else if (data.company) {
           localStorage.setItem("companyId", data.company._id);
-          navigate.push("/CompanyPersonalPage");
+          router.push("/CompanyPersonalPage");
         }
       } else {
         setErrorMessage(data.message || "Login failed");
@@ -60,7 +60,7 @@ const LoginUserOrCompany: React.FC = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="max-w-md mx-auto bg-white shadow-md rounded-md p-6 space-y-4"
+      className="max-w-md mx-auto bg-black shadow-md rounded-md p-6 space-y-4"
     >
       <div>
         <label className="block text-sm font-medium text-gray-700">Email</label>
