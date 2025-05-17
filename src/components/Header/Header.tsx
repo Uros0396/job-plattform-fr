@@ -1,23 +1,34 @@
+import Image from "next/image";
+
 const Header: React.FC = () => {
   return (
-    <div className="bg-black text-red-500 w-full">
+    <div className="text-blue-500 w-full">
       <div className="flex flex-col items-center justify-center p-10">
-        <h1 className="text-4xl font-bold mb-6">Website presentation</h1>
-        <img
-          src="/src/assets/81e840943c8efee972ea4e26292ffbd9.jpg"
-          alt="Website"
-          className="max-w-full h-auto mb-6"
+        <Image
+          src="/assets/ChatGPT_Image_17_mag_2025__16_21_28-removebg-preview.png"
+          alt="img"
+          width={490}
+          height={390}
         />
-        <p className="max-w-2xl p-5 text-center text-base leading-relaxed">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
-          perspiciatis velit officiis nisi! Facere ex doloribus nisi ipsa
-          quaerat error, quia quis in ipsum nemo minima fugiat consequatur quo
-          aperiam laudantium odit obcaecati dicta ratione itaque architecto
-          facilis vel porro eaque totam! Cupiditate laboriosam ab facilis labore
-          repellendus eveniet consequatur nobis illum, dolore expedita, dolorum
-          neque. Est nostrum consectetur illo commodi quam mollitia saepe
-          consequatur ipsum totam odit dicta dolor aliquam consequuntur
-          doloremque ad perspiciatis excepturi nesciunt, tempore rerum tenetur.
+
+        <p className="max-w-2xl p-20 text-center text-base leading-relaxed mt-5 border-b border-blue-100">
+          Our platform was created to connect new talent with companies looking
+          for fresh, motivated individuals ready to grow in the tech industry.
+          We provide a space designed to make it easier for emerging
+          professionals to meet employers who value potential and enthusiasm.
+        </p>
+
+        <p className="max-w-2xl p-20 text-center text-base leading-relaxed border-b border-blue-100">
+          For candidates, it's an opportunity to stand out by creating a
+          complete profile and presenting their skills, experiences, and
+          technologies directly to companies. It's the ideal place to kick-start
+          a real career in the digital world.
+        </p>
+        <p className="max-w-2xl p-20 text-center text-base leading-relaxed">
+          For companies, the platform enables targeted searches for junior and
+          entry-level profiles, with filters based on technologies,
+          availability, and work preferences. It's a simple, fast, and effective
+          way to find new talent and build the future of your team.
         </p>
       </div>
     </div>

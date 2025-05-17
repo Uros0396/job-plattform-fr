@@ -8,4 +8,4 @@ const NewCompanypersPage: React.FC = () => {
   );
 };
 
-export default <NewCompanypersPage />;
+export default NewCompanypersPage;

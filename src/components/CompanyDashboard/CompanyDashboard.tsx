@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ListForCompany from "../../components/ListForCompany/ListForCompany";
 
 interface CandidateForCompanyList {
@@ -25,6 +25,12 @@ interface CandidateForCompanyList {
 const CompanyDashboard: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [users, setUsers] = useState<CandidateForCompanyList[]>([]);
+
+  useEffect(() => {
+    if (inputValue.trim() === "") {
+      setUsers([]);
+    }
+  }, [inputValue]);
 
   const handleSearch = async () => {
     const cleaned = inputValue
@@ -55,19 +61,19 @@ const CompanyDashboard: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-2 mt-4 mb-10">
+      <h2 className="text-2xl font-bold mb-4 text-blue-500">Dashboard</h2>
       <div className="flex flex-col lg:flex-row gap-10">
         {/* Left Section */}
-        <div className="lg:w-1/2">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            Dashboard Company
-          </h2>
-          <ListForCompany />
-        </div>
 
-        {/* Right Section */}
         <div className="lg:w-1/2">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 p-5 border border-gray-300">
+            <p className="py-2 text-gray-500">
+              <em>
+                Here you can discover entry-level and junior candidates,
+                filtered by the technologies you’re looking for.
+              </em>
+            </p>
             <input
               type="text"
               placeholder="Search by technologies"
@@ -81,25 +87,31 @@ const CompanyDashboard: React.FC = () => {
             >
               Search
             </button>
-            <h4 className="text-xl font-semibold text-gray-700">Candidates:</h4>
+            <h4 className="text-xl font-semibold text-gray-700"></h4>
             {users.length > 0 ? (
               <ul className="list-disc list-inside space-y-1">
                 {users.map((user) => (
-                  <li key={user._id} className="text-gray-600">
+                  <li
+                    key={user._id}
+                    className="text-gray-600 border-b border-gray-200 mt-4 list-none"
+                  >
                     <span className="font-medium text-gray-800">
                       {user.name} {user.surname}
                     </span>{" "}
-                    —{" "}
-                    <span className="text-sm italic">
-                      {user.technologies.join(", ")}
-                    </span>
+                    — <span className="text-sm italic">{user.coverLetter}</span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-gray-500">No Candidates</p>
+              <p className="text-gray-500"></p>
             )}
           </div>
+        </div>
+
+        {/* Right Section */}
+
+        <div className="lg:w-1/2">
+          <ListForCompany />
         </div>
       </div>
     </div>

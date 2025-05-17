@@ -1,5 +1,8 @@
 "use client";
 
+{
+  /*"use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import UserForm from "../../UserForm/UserForm";
@@ -60,7 +63,7 @@ const RegisterFormUser: React.FC = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${process.env.VITE_SERVER_BASE_URL}/users/create`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/create`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -76,7 +79,128 @@ const RegisterFormUser: React.FC = () => {
         localStorage.setItem("registeredUserData", JSON.stringify(createdUser));
         localStorage.setItem("userId", createdUser._id);
 
-        router.push("/login"); // ✅ fixato
+        router.push("/login-route");
+      } else {
+        alert("Failed to register user");
+      }
+    } catch (error) {
+      console.error("Error submitting form", error);
+      alert("Error submitting form");
+    }
+  };
+
+  return (
+    <UserForm
+      formData={formData}
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+      title="Register Candidate"
+      submitButtonText="Register"
+    />
+  );
+};
+
+export default RegisterFormUser;*/
+}
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import UserForm from "../../UserForm/UserForm";
+
+interface FormData {
+  name: string;
+  surname: string;
+  dob: string;
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+  address: string;
+  img: File | null;
+  cv: File | null;
+  coverLetter: string;
+  technologies: string[];
+  workPreference: string;
+  availableFrom: string;
+  relocation: string;
+}
+
+const RegisterFormUser: React.FC = () => {
+  const router = useRouter();
+
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    surname: "",
+    dob: "",
+    username: "",
+    email: "",
+    password: "",
+    role: "user",
+    address: "",
+    img: null,
+    cv: null,
+    coverLetter: "",
+    technologies: [],
+    workPreference: "remote",
+    availableFrom: "",
+    relocation: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, files } = e.target as HTMLInputElement;
+
+    if (files && files.length > 0) {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: files[0],
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]:
+          name === "technologies"
+            ? value.split(",").map((tech) => tech.trim())
+            : value,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const data = new FormData();
+
+    for (const key in formData) {
+      const value = formData[key as keyof FormData];
+      if (value instanceof File) {
+        data.append(key, value); // File (img, cv)
+      } else if (Array.isArray(value)) {
+        data.append(key, value.join(",")); // technologies
+      } else if (typeof value === "string") {
+        data.append(key, value);
+      }
+    }
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/create`,
+        {
+          method: "POST",
+          body: data, // multipart/form-data automaticamente gestito
+        }
+      );
+
+      if (response.ok) {
+        const createdUser = await response.json();
+        alert("Candidate registered successfully. Please log in.");
+
+        localStorage.clear();
+        localStorage.setItem("registeredUserData", JSON.stringify(createdUser));
+        localStorage.setItem("userId", createdUser._id);
+
+        router.push("/login-route");
       } else {
         alert("Failed to register user");
       }

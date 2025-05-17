@@ -3,24 +3,23 @@ import Footer from "../../Footer/Footer";
 import Header from "../../Header/Header";
 import Navbar from "../../Navbar/Navbar";
 import UserHomeSection from "@/components/UserHomeSection/UserHomeSection";
+import ArrowSection from "@/components/ArrowSection/ArrowSection";
 
 const Homepage: React.FC = () => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       <Header />
-      <main className="container mx-auto">
-        <div className="flex flex-col md:flex-row min-h-screen">
-          <div className="w-full md:w-1/2 p-4">
-            <UserHomeSection />
-          </div>
-          <div className="w-full md:w-1/2 p-4">
-            <CompanyHomeSection />
-          </div>
+      <ArrowSection />
+      <main className="flex-1 w-full m-0 p-0 mb-30">
+        <div className="flex">
+          <UserHomeSection />
+          <CompanyHomeSection />
         </div>
       </main>
+
       <Footer />
-    </>
+    </div>
   );
 };
 

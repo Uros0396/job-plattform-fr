@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import "./UserHomeSection.css";
 
 const UserHomeSection: React.FC = () => {
   const redirectToGoogle = () => {
@@ -8,30 +9,47 @@ const UserHomeSection: React.FC = () => {
   };
 
   return (
-    <div className="lg:w-1/2 bg-green-500 flex flex-col justify-evenly items-center p-8 text-center rounded-lg shadow-lg">
-      <h2 className="text-4xl text-red-600 font-bold mb-4">Candidate</h2>
-      <p className="text-lg text-gray-800 mb-6">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod fugit, a
-        rem aspernatur est dolor voluptate laudantium nulla! Sed molestiae
-        maiores amet repellat vero delectus, nobis debitis ipsam veritatis
-        voluptates fuga non nihil aliquid quos qui cumque accusamus temporibus?
-        Alias voluptates reprehenderit ratione non voluptate soluta fugiat
-        maiores repellat porro.
+    <div className="w-1/2 flex flex-col justify-evenly items-center text-center p-5 mt-40 border-e border-gray-300">
+      <h2 className="text-4xl text-blue-500 font-bold font-title">
+        Are you a Junior
+      </h2>
+      <p className="mt-1">
+        <em>Signing up is the first step to getting noticed by companies!</em>
       </p>
+      <div className="text-lg text-gray-800 px-20 text-left flex flex-col justify-evenly h-[400px]">
+        <p>
+          Immediate visibility to companies looking for junior and entry-level
+          profiles.
+        </p>
+        <p>
+          Opportunity to create a complete profile with CV, cover letter, and
+          known technologies.
+        </p>
+        <p>
+          Ideal for those at the beginning of their career who want to enter the
+          tech industry.
+        </p>
+      </div>
 
-      <Link href="/user-register-page">
-        <button className="w-full py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-          Register
-        </button>
-      </Link>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12">
+          <Link href="/user-register-page">
+            <button className="bg-blue-500 text-white w-full rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer">
+              Register
+            </button>
+          </Link>
+        </div>
 
-      <button
-        type="button"
-        onClick={redirectToGoogle}
-        className="w-full py-2 mt-4 bg-white text-blue-500 rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-      >
-        Sign in with Google
-      </button>
+        <div className="col-span-12">
+          <button
+            type="button"
+            onClick={redirectToGoogle}
+            className="bg-white text-blue-500 w-full rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer"
+          >
+            Sign in with Google
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

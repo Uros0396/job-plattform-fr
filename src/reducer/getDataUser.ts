@@ -14,9 +14,7 @@ const initialState: DataState = {
 };
 
 export const getData = createAsyncThunk("data/getData", async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL_BASE_URL}/users`
-  );
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users`);
   if (!response.ok) {
     throw new Error("Failed to fetch users");
   }

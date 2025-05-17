@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface LoginCard {
   email: string;
@@ -43,10 +43,14 @@ const LoginUserOrCompany: React.FC = () => {
         if (data.user) {
           localStorage.setItem("userId", data.user._id);
           localStorage.setItem("registeredUserData", JSON.stringify(data.user));
-          router.push("/UserPersonalPage");
+          router.push("/user-personal-page");
         } else if (data.company) {
           localStorage.setItem("companyId", data.company._id);
-          router.push("/CompanyPersonalPage");
+          localStorage.setItem(
+            "registeredCompanyData",
+            JSON.stringify(data.company)
+          );
+          router.push("/company-personal-page");
         }
       } else {
         setErrorMessage(data.message || "Login failed");

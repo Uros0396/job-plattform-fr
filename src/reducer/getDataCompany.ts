@@ -14,9 +14,7 @@ const initialState: DataCompanyState = {
 };
 
 export const getCompanyData = createAsyncThunk("data/getData", async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/companies`
-  );
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/companies`);
   if (!response.ok) {
     throw new Error("Failed to fetch companies");
   }
