@@ -1,10 +1,16 @@
+import Footer from "@/components/Footer/Footer";
 import CompanyPersonalPage from "../CompanyPersona/CompanyPersonalPage";
+import Navbar from "@/components/Navbar/Navbar";
 
 const NewCompanypersPage: React.FC = () => {
   return (
-    <>
-      <CompanyPersonalPage />
-    </>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-1">
+        <CompanyPersonalPage />
+      </main>
+      <Footer />
+    </div>
   );
 };
 

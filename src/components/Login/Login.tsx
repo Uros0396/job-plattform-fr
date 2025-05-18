@@ -64,7 +64,7 @@ const LoginUserOrCompany: React.FC = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="max-w-md mx-auto bg-black shadow-md rounded-md p-6 space-y-4"
+      className="max-w-md mx-auto bg-blue-100 shadow-md rounded-md p-6 space-y-4"
     >
       <div>
         <label className="block text-sm font-medium text-gray-700">Email</label>
@@ -74,7 +74,7 @@ const LoginUserOrCompany: React.FC = () => {
           onChange={handleInput}
           value={formData.email}
           required
-          className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          className="bg-white mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
 
@@ -88,7 +88,7 @@ const LoginUserOrCompany: React.FC = () => {
           onChange={handleInput}
           value={formData.password}
           required
-          className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:border-blue-500"
         />
       </div>
 

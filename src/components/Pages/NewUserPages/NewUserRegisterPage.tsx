@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar/Navbar";
 import RegisterFormUser from "../UseRegister/UserRegister";
 import Footer from "@/components/Footer/Footer";
 

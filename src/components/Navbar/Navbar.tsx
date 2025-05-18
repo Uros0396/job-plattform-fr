@@ -26,7 +26,6 @@ const Navbar: React.FC = () => {
         className={`${isHomePage ? "bg-white" : "bg-blue-100"} text-black py-3`}
       >
         <div className="container mx-auto flex justify-between items-center">
-          {/* Logo solo se non homepage */}
           {!isHomePage && (
             <Link href={"/"}>
               {" "}
@@ -39,7 +38,6 @@ const Navbar: React.FC = () => {
             </Link>
           )}
 
-          {/* Spazio a destra per Login (solo homepage) + Logout (sempre) */}
           <div className="flex flex-col items-end space-y-2 ml-auto">
             {isHomePage && (
               <button

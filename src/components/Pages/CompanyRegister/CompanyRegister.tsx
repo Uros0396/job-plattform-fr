@@ -1,63 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import CompanyForm from "../../CompmanyForm/CompanyForm";
-
-interface CompanyData {
-  name: string;
-  address: string;
-  password: string;
-  city: string;
-  country: string;
-  email: string;
-  phoneNumber: string;
-  website: string;
-  companySize: string;
-  logo: string;
-  links: string;
-  subscriptionPlan: string;
-  stripeCustomerId: string;
-}
+import CompanyForm from "../../CompanyForm/CompanyForm";
 
 const CompanyRegister: React.FC = () => {
   const router = useRouter();
 
-  const [formData, setFormData] = useState<CompanyData>({
-    name: "",
-    address: "",
-    password: "",
-    city: "",
-    country: "",
-    email: "",
-    phoneNumber: "",
-    website: "",
-    companySize: "",
-    logo: "",
-    links: "",
-    subscriptionPlan: "651e18c5f2a9a3d4e8b0a123",
-    stripeCustomerId: "trialing",
-  });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (data: any) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/companies/create`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(data),
         }
       );
 
@@ -67,7 +23,6 @@ const CompanyRegister: React.FC = () => {
 
         localStorage.clear();
         localStorage.setItem("companyId", createdCompany._id);
-
         localStorage.setItem(
           "registeredUserData",
           JSON.stringify(createdCompany)
@@ -85,11 +40,10 @@ const CompanyRegister: React.FC = () => {
 
   return (
     <CompanyForm
-      formData={formData}
-      onChange={handleChange}
       onSubmit={handleSubmit}
       title="Register Company"
       submitButtonText="Register"
+      isEditing={true}
     />
   );
 };

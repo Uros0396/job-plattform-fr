@@ -65,8 +65,11 @@ const ListForCompany: React.FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-screen-md mx-auto p-4 bg-gray-100">
       {allUsers.map((user) => (
-        <div key={user._id} className="bg-white  shadow-md rounded-lg">
-          <div className="ps-5 pt-4 bg-blue-100">
+        <div
+          key={user._id}
+          className="bg-white text-center shadow-md rounded-lg"
+        >
+          <div className="flex justify-center pt-4 bg-blue-100">
             {" "}
             <img
               src={`${API_URL}/users/${user._id}/image`}

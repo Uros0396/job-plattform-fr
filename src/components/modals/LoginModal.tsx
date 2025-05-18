@@ -7,15 +7,14 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed inset-0 bg-[rgba(191,219,254,0.6)] flex justify-center items-center z-50"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6"
+        className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 border-6 border-blue-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center">
-          <h5 className="text-xl font-semibold">Login</h5>
+        <div className="flex justify-end items-center">
           <button
             type="button"
             className="text-gray-500 hover:text-gray-700"

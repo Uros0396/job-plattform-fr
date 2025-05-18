@@ -3,7 +3,7 @@ import { Facebook, Instagram, Linkedin } from "lucide-react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-blue-100 text-white p-4 h-50">
+    <footer className="bg-blue-100 text-white p-4">
       <div className="container mx-auto grid grid-cols-8 gap-2">
         <div className="col-span-2 border-e border-blue-300">
           <Link href={"/"}>
@@ -39,9 +39,10 @@ const Footer: React.FC = () => {
           </p>
         </div>
         <div className="col-span-3 p-4 gap-6 text-blue-500 flex">
-          <Instagram />
-          <Facebook />
-          <Linkedin />
+          <Instagram className="cursor-pointer" />
+
+          <Facebook className="cursor-pointer" />
+          <Linkedin className="cursor-pointer" />
         </div>
       </div>
     </footer>

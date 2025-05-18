@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import { useEffect, useState } from "react";
 import { getCompanyData } from "../../../reducer/getDataCompany";
-import CompanyForm from "../../CompmanyForm/CompanyForm";
+import CompanyForm from "../../CompanyForm/CompanyForm";
 import Link from "next/link";
 
 const CompanyPersonalPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [editedCompany, setEditedCompany] = useState<any>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const allCompanies = useSelector((state: RootState) => state.dataSlice.data);
   const dataLoading = useSelector(
@@ -22,11 +23,9 @@ const CompanyPersonalPage: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const registeredCompanyData = localStorage.getItem("registeredCompanyData");
-
-    if (registeredCompanyData) {
-      const parsedData = JSON.parse(registeredCompanyData);
-      setEditedCompany(parsedData);
+    const storedData = localStorage.getItem("registeredCompanyData");
+    if (storedData) {
+      setEditedCompany(JSON.parse(storedData));
     }
   }, []);
 
@@ -46,25 +45,22 @@ const CompanyPersonalPage: React.FC = () => {
     }
   }, [allCompanies]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setEditedCompany((prev: any) => ({
-      ...prev,
-      [name]: name === "companySize" ? value.trim() : value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (data: any) => {
     if (!editedCompany) return;
 
-    const companyToUpdate = { ...editedCompany };
-    if (companyToUpdate.password === "") delete companyToUpdate.password;
+    const updatedCompany = {
+      ...editedCompany,
+      ...data,
+      links: data.links
+        .split(",")
+        .map((link: string) => link.trim())
+        .filter(Boolean),
+    };
 
-    if (Array.isArray(companyToUpdate.companySize)) {
-      companyToUpdate.companySize = companyToUpdate.companySize.join("");
+    if (updatedCompany.password === "") delete updatedCompany.password;
+
+    if (Array.isArray(updatedCompany.companySize)) {
+      updatedCompany.companySize = updatedCompany.companySize.join("");
     }
 
     const token = localStorage.getItem("token");
@@ -78,7 +74,7 @@ const CompanyPersonalPage: React.FC = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(companyToUpdate),
+          body: JSON.stringify(updatedCompany),
         }
       );
 
@@ -99,17 +95,18 @@ const CompanyPersonalPage: React.FC = () => {
       );
 
       if (updatedCompanyResponse.ok) {
-        const updatedCompany = await updatedCompanyResponse.json();
-        setEditedCompany(updatedCompany);
+        const freshCompany = await updatedCompanyResponse.json();
+        setEditedCompany(freshCompany);
         localStorage.setItem(
           "registeredCompanyData",
-          JSON.stringify(updatedCompany)
+          JSON.stringify(freshCompany)
         );
       }
 
       dispatch(getCompanyData());
+      setIsEditing(false);
     } catch (error) {
-      console.error("Error updating ", error);
+      console.error("Error updating", error);
       alert("Error updating company information");
     }
   };
@@ -120,25 +117,47 @@ const CompanyPersonalPage: React.FC = () => {
     return <p className="text-center text-red-500">Error: {dataError}</p>;
 
   return (
-    <>
-      <div className="container mx-auto p-6">
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          Update Your Profile
-        </h2>
+    <div className="flex container mx-auto p-2 gap-6 mb-10 mt-10">
+      {!isEditing && (
+        <div className="w-1/3 grid max-h-80">
+          <Link
+            href="/company-dashboard"
+            className="flex justify-center bg-blue-200 hover:bg-blue-100 border-2 rounded border-blue-300 max-h-25"
+          >
+            <button className="text-blue-500 cursor-pointer">
+              <strong>Dashboard</strong>
+            </button>
+          </Link>
+          <button
+            className="text-blue-600 font-semibold border border-blue-300 rounded hover:bg-blue-100 text-center cursor-pointer max-h-25"
+            onClick={() => setIsEditing(true)}
+          >
+            Here you can modify your profile
+          </button>
+        </div>
+      )}
+
+      <div className="w-2/3 bg-gray-100">
         <CompanyForm
-          formData={editedCompany}
-          onChange={handleChange}
           onSubmit={handleSubmit}
-          title="Update Company Personal Page"
+          title={isEditing ? "Update Profile" : "Your Profile"}
           submitButtonText="Update Profile"
+          isEditing={isEditing}
+          defaultValues={editedCompany}
         />
       </div>
-      <div className="container">
-        <Link href={"company-dashboard"}>
-          <button>Dashboard</button>
-        </Link>
-      </div>
-    </>
+
+      {isEditing && (
+        <div>
+          <button
+            className="text-gray-500 hover:text-gray-700 cursor-pointer"
+            onClick={() => setIsEditing(false)}
+          >
+            or Back to your profile
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
 
