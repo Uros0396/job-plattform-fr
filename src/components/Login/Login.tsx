@@ -35,6 +35,8 @@ const LoginUserOrCompany: React.FC = () => {
       );
 
       const data = await response.json();
+      console.log("Status:", response.status);
+      console.log("Response JSON:", data);
 
       if (response.ok) {
         localStorage.clear();
@@ -53,7 +55,7 @@ const LoginUserOrCompany: React.FC = () => {
           router.push("/company-personal-page");
         }
       } else {
-        setErrorMessage(data.message || "Login failed");
+        setErrorMessage(data.message || "Login failed" || response.status);
       }
     } catch (error) {
       console.error("Fetch error:", error);

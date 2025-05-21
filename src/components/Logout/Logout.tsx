@@ -8,6 +8,7 @@ const Logout = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("companyId");
+    localStorage.removeItem("registeredCompanyData");
     localStorage.removeItem("userId");
     localStorage.removeItem("registeredUserData");
     alert("Logged out successfully!");

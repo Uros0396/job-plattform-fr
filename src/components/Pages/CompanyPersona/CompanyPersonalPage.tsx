@@ -56,8 +56,14 @@ const CompanyPersonalPage: React.FC = () => {
         .map((link: string) => link.trim())
         .filter(Boolean),
     };
+    console.log("Sending this to server:", updatedCompany);
 
-    if (updatedCompany.password === "") delete updatedCompany.password;
+    if (
+      !updatedCompany.password ||
+      updatedCompany.password?.trim() === "" ||
+      updatedCompany.password.startsWith("$2b$")
+    )
+      delete updatedCompany.password;
 
     if (Array.isArray(updatedCompany.companySize)) {
       updatedCompany.companySize = updatedCompany.companySize.join("");
@@ -101,6 +107,7 @@ const CompanyPersonalPage: React.FC = () => {
           "registeredCompanyData",
           JSON.stringify(freshCompany)
         );
+        console.log("Updated company saved to localStorage:", freshCompany);
       }
 
       dispatch(getCompanyData());
