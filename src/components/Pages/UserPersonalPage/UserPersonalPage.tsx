@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -143,6 +143,152 @@ const UserPersonalPage: React.FC = () => {
         };
 
         localStorage.setItem("registeredUserData", JSON.stringify(lightUser));
+      }
+
+      dispatch(getData());
+    } catch (error) {
+      console.error("Error updating user", error);
+      alert("Error updating user information");
+    }
+  };
+
+  if (dataLoading || !editedUser)
+    return <p className="text-center">Loading...</p>;
+  if (dataError)
+    return <p className="text-center text-red-500">Error: {dataError}</p>;
+
+  return (
+    <div className="container mx-auto p-6">
+      <h2 className="text-2xl font-semibold text-center mb-6">
+        Update Your Profile
+      </h2>
+      <UserForm
+        defaultValues={editedUser}
+        onSubmit={handleSubmit}
+        title="Update User Personal Page"
+        submitButtonText="Update Profile"
+      />
+    </div>
+  );
+};
+
+export default UserPersonalPage;*/
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { getData } from "../../../reducer/getDataUser";
+import UserForm, { UserFormSchema } from "../../UserForm/UserForm";
+import { useRouter } from "next/navigation";
+
+const UserPersonalPage: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
+  const [editedUser, setEditedUser] = useState<UserFormSchema | null>(null);
+
+  const dataLoading = useSelector(
+    (state: RootState) => state.dataSlice.loading
+  );
+  const dataError = useSelector((state: RootState) => state.dataSlice.error);
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/me`, {
+      credentials: "include",
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Non autenticato");
+
+        const data = await res.json();
+
+        if (!data.user) throw new Error("Non sei un utente");
+
+        // Trasforma links array in stringa separata da virgole per il form
+        const userForForm: UserFormSchema = {
+          ...data.user,
+          links: Array.isArray(data.user.links)
+            ? data.user.links.join(", ")
+            : "",
+          // Nota: assicurati che tutti i campi obbligatori siano presenti o gestiti qui
+        };
+
+        setEditedUser(userForForm);
+        dispatch(getData());
+      })
+      .catch(() => {
+        router.push("/login-route");
+      });
+  }, [dispatch, router]);
+
+  const handleSubmit = async (
+    data: UserFormSchema & { imgFile?: File; cvFile?: File }
+  ) => {
+    if (!editedUser) return;
+
+    // Prepara l'oggetto da inviare
+    const updatedUser: any = {
+      ...editedUser,
+      ...data,
+      links: data.links
+        ?.split(",")
+        .map((link) => link.trim())
+        .filter(Boolean),
+    };
+
+    // Gestione password come nel Company: se password non modificata, la eliminiamo
+    if (
+      !updatedUser.password ||
+      updatedUser.password.trim() === "" ||
+      updatedUser.password.startsWith("$2b$")
+    ) {
+      delete updatedUser.password;
+    }
+
+    try {
+      // Se hai file da inviare (imgFile o cvFile), serve multipart/form-data,
+      // altrimenti JSON va bene. Qui esempio base con JSON:
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/updatePortion/${editedUser._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(updatedUser),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || "Failed to update user information"
+        );
+      }
+
+      alert("User information updated successfully!");
+
+      // Ricarichiamo i dati utente aggiornati
+      const updatedUserResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/me`,
+        {
+          credentials: "include",
+        }
+      );
+
+      if (updatedUserResponse.ok) {
+        const freshUser = await updatedUserResponse.json();
+
+        const userForForm: UserFormSchema = {
+          ...freshUser.user,
+          links: Array.isArray(freshUser.user.links)
+            ? freshUser.user.links.join(", ")
+            : "",
+        };
+
+        setEditedUser(userForForm);
       }
 
       dispatch(getData());

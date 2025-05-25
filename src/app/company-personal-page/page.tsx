@@ -3,7 +3,7 @@ import NewCompanyPersPage from "@/components/Pages/NewCompanyPages/NewCompanyPer
 const CompanyPersonalPage: React.FC = () => {
   return (
     <>
-      <NewCompanyPersPage />;
+      <NewCompanyPersPage />
     </>
   );
 };

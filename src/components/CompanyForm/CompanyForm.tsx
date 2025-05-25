@@ -20,7 +20,7 @@ const schema = z.object({
     errorMap: () => ({ message: "Please select a company size" }),
   }),
   logo: z.string().url("Invalid URL"),
-  links: z.string().optional(),
+  links: z.string().url().optional(),
 });
 
 type CompanyFormSchema = z.infer<typeof schema>;

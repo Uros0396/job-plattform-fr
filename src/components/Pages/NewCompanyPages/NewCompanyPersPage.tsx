@@ -2,7 +2,7 @@ import Footer from "@/components/Footer/Footer";
 import CompanyPersonalPage from "../CompanyPersona/CompanyPersonalPage";
 import Navbar from "@/components/Navbar/Navbar";
 
-const NewCompanypersPage: React.FC = () => {
+const NewCompanyPersPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -14,4 +14,4 @@ const NewCompanypersPage: React.FC = () => {
   );
 };
 
-export default NewCompanypersPage;
+export default NewCompanyPersPage;
