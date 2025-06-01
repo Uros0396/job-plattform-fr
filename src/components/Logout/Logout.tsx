@@ -5,14 +5,27 @@ import { useRouter } from "next/navigation";
 
 const Logout = () => {
   const router = useRouter();
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("companyId");
-    localStorage.removeItem("registeredCompanyData");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("registeredUserData");
-    alert("Logged out successfully!");
-    router.push("/");
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
+      if (response.ok) {
+        alert("Logged out successfully!");
+        router.push("/");
+      } else {
+        alert("Failed to logout");
+      }
+    } catch (error) {
+      console.error("Logout error", error);
+      alert("Error during logout");
+    }
   };
 
   return (
