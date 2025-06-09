@@ -4,6 +4,23 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Select from "react-select";
+import { Controller } from "react-hook-form";
+
+type FormData = {
+  technology: { value: string; label: string } | null;
+};
+
+const technologyOptions = [
+  { value: "JavaScript", label: "JavaScript" },
+  { value: "TypeScript", label: "TypeScript" },
+  { value: "React", label: "React" },
+  { value: "Node.js", label: "Node.js" },
+  { value: "CSS", label: "CSS" },
+  { value: "HTML", label: "HTML" },
+  { value: "Python", label: "Python" },
+  { value: "Java", label: "Java" },
+];
 
 const schema = z.object({
   _id: z.string().optional(),
@@ -21,7 +38,8 @@ const schema = z.object({
   coverLetter: z.string().optional(),
   availableFrom: z.string().min(1, "Available From is required"),
   relocation: z.string().optional(),
-  technologies: z.string().optional(),
+  technologies: z.array(z.string()).optional(),
+
   links: z.string().optional(),
   workPreference: z.enum(["remote", "on-site", "hybrid"], {
     errorMap: () => ({ message: "Please select a work preference" }),
@@ -49,6 +67,7 @@ const UserForm: React.FC<UserFormProps> = ({
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<UserFormSchema>({
     resolver: zodResolver(schema),
@@ -77,22 +96,16 @@ const UserForm: React.FC<UserFormProps> = ({
     { label: "Cover Letter", name: "coverLetter", type: "text" },
     { label: "Available From", name: "availableFrom", type: "date" },
     { label: "Relocation", name: "relocation", type: "text" },
-    {
-      label: "Technologies (comma-separated)",
-      name: "technologies",
-      type: "text",
-    },
-    { label: "Links (comma-separated)", name: "links", type: "text" },
+
+    { label: "Link Github", name: "links", type: "text" },
   ];
 
   return (
     <form
       onSubmit={handleSubmit(onSubmitInternal)}
-      className="bg-white shadow-lg rounded-lg p-6 mt-4 space-y-4"
+      className="bg-gray-100 shadow-lg rounded-lg p-6 mt-4 space-y-4 w-130 ms-10"
       encType="multipart/form-data"
     >
-      <h3 className="text-xl font-bold">{title}</h3>
-
       {fields.map(({ label, name, type }) => (
         <div key={name}>
           <label htmlFor={name} className="block font-medium">
@@ -103,7 +116,7 @@ const UserForm: React.FC<UserFormProps> = ({
             type={type}
             id={name}
             disabled={!isEditing}
-            className={`w-full p-2 border rounded ${
+            className={`w-120 p-2  bg-white border rounded ${
               errors[name as keyof typeof errors]
                 ? "border-red-500"
                 : "border-gray-300"
@@ -124,7 +137,7 @@ const UserForm: React.FC<UserFormProps> = ({
           type="file"
           id="img"
           disabled={!isEditing}
-          className="block w-full mt-1"
+          className="block w-80 mt-1 border"
         />
       </div>
 
@@ -135,17 +148,17 @@ const UserForm: React.FC<UserFormProps> = ({
           type="file"
           id="cv"
           disabled={!isEditing}
-          className="block w-full mt-1"
+          className="block w-80 border mt-1"
         />
       </div>
 
-      <div>
+      <div className="flex flex-col">
         <label htmlFor="workPreference">Work Preference</label>
         <select
           {...register("workPreference")}
           id="workPreference"
           disabled={!isEditing}
-          className="w-full p-2 border rounded"
+          className="w-80 p-2 border rounded"
         >
           <option value="">Select preference</option>
           <option value="remote">Remote</option>
@@ -157,6 +170,29 @@ const UserForm: React.FC<UserFormProps> = ({
             {errors.workPreference.message}
           </p>
         )}
+      </div>
+      <div>
+        <label className="block font-medium">Technologies</label>
+        <Controller
+          control={control}
+          name="technologies"
+          render={({ field }) => (
+            <Select
+              {...field}
+              isMulti
+              options={technologyOptions}
+              className="w-120"
+              isDisabled={!isEditing}
+              placeholder="Select technologies..."
+              onChange={(selected) =>
+                field.onChange(selected.map((opt) => opt.value))
+              }
+              value={technologyOptions.filter((opt) =>
+                field.value?.includes(opt.value)
+              )}
+            />
+          )}
+        />
       </div>
 
       <button

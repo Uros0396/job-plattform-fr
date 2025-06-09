@@ -5,6 +5,7 @@ import { getData } from "../../reducer/getDataUser";
 import { AppDispatch, RootState } from "../../store/store";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import GearLoader from "../GearLoader/GearLoader";
 
 interface CandidateListForCompany {
   name: string;
@@ -25,6 +26,7 @@ interface CandidateListForCompany {
     contentType: string;
     originalName: string;
   };
+  links: string;
   coverLetter: string;
   technologies: string;
   workPreference: "remote" | "on-site" | "hybrid";
@@ -51,7 +53,7 @@ const ListForCompany: React.FC = () => {
   }, [dispatch]);
 
   if (listLoading) {
-    return <p className="text-center text-gray-500">Loading...</p>;
+    return <GearLoader />;
   }
 
   if (listError) {
@@ -89,6 +91,7 @@ const ListForCompany: React.FC = () => {
             <p className="text-sm grid mt-2 text-gray-500">
               <strong>Technologies:</strong>
             </p>
+
             <p className="max-w-xs text-sm break-words">
               {Array.isArray(user.technologies)
                 ? user.technologies.join(", ")
@@ -96,6 +99,14 @@ const ListForCompany: React.FC = () => {
                 ? user.technologies
                 : ""}
             </p>
+            <button
+              onClick={() => router.push(`/user-detail/${user._id}`)}
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+            >
+              See More
+            </button>
+
+            {/*}
             <div className="border-t px-4 py-2  text-sm text-center mt-4">
               <a
                 href={`${API_URL}/users/${user._id}/cv`}
@@ -106,8 +117,6 @@ const ListForCompany: React.FC = () => {
                 View CV
               </a>
             </div>
-
-            {/*}
             <p className="text-sm grid">
               <strong>Email:</strong>
             </p>

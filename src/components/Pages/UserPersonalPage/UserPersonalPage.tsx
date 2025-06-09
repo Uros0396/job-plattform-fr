@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "../../../store/store";
 import { getData } from "../../../reducer/getDataUser";
 import UserForm, { UserFormSchema } from "../../UserForm/UserForm";
 import { useRouter } from "next/navigation";
+import GearLoader from "@/components/GearLoader/GearLoader";
 
 const UserPersonalPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -56,14 +57,7 @@ const UserPersonalPage: React.FC = () => {
     Object.entries({
       ...editedUser,
       ...data,
-      links: data.links
-        ?.split(",")
-        .map((l) => l.trim())
-        .filter(Boolean),
-      technologies: data.technologies
-        ?.split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
+      links: data.links?.split(",").map((l) => l.trim()),
     }).forEach(([key, value]) => {
       if (
         key !== "img" &&
@@ -133,22 +127,27 @@ const UserPersonalPage: React.FC = () => {
     }
   };
 
-  if (dataLoading || !editedUser)
-    return <p className="text-center">Loading...</p>;
+  if (dataLoading || !editedUser) return <GearLoader />;
   if (dataError)
     return <p className="text-red-500 text-center">Errore: {dataError}</p>;
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-semibold text-center mb-6">
-        Update Your Profile
-      </h2>
       <UserForm
         defaultValues={editedUser}
         onSubmit={handleSubmit}
         title="Update User Personal Page"
         submitButtonText="Update Profile"
       />
+      <p>Hera you can see your profile</p>
+      {editedUser && (
+        <button
+          onClick={() => router.push(`/user-detail/${editedUser._id}`)}
+          className="mt-4 bg-white text-gray-500 cursor-pointer"
+        >
+          Your Profile
+        </button>
+      )}
     </div>
   );
 };

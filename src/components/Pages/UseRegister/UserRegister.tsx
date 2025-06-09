@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import UserForm, { UserFormSchema } from "../../UserForm/UserForm";
+import Image from "next/image";
 
 const RegisterFormUser: React.FC = () => {
   const router = useRouter();
@@ -34,6 +35,14 @@ const RegisterFormUser: React.FC = () => {
           credentials: "include",
         }
       );
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(
+          "Failed to register user: " +
+            (errorData.message || JSON.stringify(errorData))
+        );
+        return;
+      }
 
       if (response.ok) {
         alert("Candidate registered successfully. Please log in.");
@@ -55,12 +64,31 @@ const RegisterFormUser: React.FC = () => {
   }, []);
 
   return (
-    <UserForm
-      title="Register Candidate"
-      submitButtonText="Register"
-      onSubmit={handleSubmit}
-      defaultValues={memoizedDefaultValues}
-    />
+    <>
+      <div className="container mx-auto text-center">
+        <p className="p-10 border-b border-b-gray-200 mt-10 text-blue-400">
+          Welcome! If you're a junior developer or just starting your journey in
+          the world of coding, you're in the right place. <br /> Fill out the
+          form to create your profile you’ll be able to showcase your skills,
+          work preferences (remote, on-site, or hybrid), <br /> and start
+          getting noticed by companies looking for new talent.
+        </p>
+      </div>
+      <div className="flex gap-40 mt-20 mb-20">
+        <UserForm
+          title="Register Candidate"
+          submitButtonText="Register"
+          onSubmit={handleSubmit}
+          defaultValues={memoizedDefaultValues}
+        />
+        <Image
+          src="/assets/ChatGPT_Image_8_giu_2025__11_05_36-removebg-preview.png"
+          alt=""
+          width={600}
+          height={800}
+        />
+      </div>
+    </>
   );
 };
 
