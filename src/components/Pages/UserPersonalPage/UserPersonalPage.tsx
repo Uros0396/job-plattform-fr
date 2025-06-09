@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -57,7 +56,9 @@ const UserPersonalPage: React.FC = () => {
     Object.entries({
       ...editedUser,
       ...data,
-      links: data.links?.split(",").map((l) => l.trim()),
+      links: Array.isArray(data.links)
+        ? data.links.join(", ")
+        : data.links?.toString().trim(),
     }).forEach(([key, value]) => {
       if (
         key !== "img" &&
