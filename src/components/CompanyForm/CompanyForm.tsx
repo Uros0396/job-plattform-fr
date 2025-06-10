@@ -51,8 +51,6 @@ const CompanyForm: React.FC<CompanyFormProps> = ({
 
   return (
     <div className="container mx-auto mt-6 px-4 p-4">
-      <h2 className="text-2xl font-semibold text-blue-500">{title}</h2>
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white rounded-lg shadow-lg mt-4 p-4 bg-blue-100"
@@ -67,7 +65,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({
           { label: "Phone Number", name: "phoneNumber", type: "text" },
           { label: "Website", name: "website", type: "text" },
           { label: "Logo URL", name: "logo", type: "text" },
-          { label: "Links (comma-separated)", name: "links", type: "text" },
+          { label: "Company link", name: "links", type: "text" },
         ].map(({ label, name, type }) => {
           if (name === "password" && !isEditing) return null;
 

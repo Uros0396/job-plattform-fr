@@ -66,7 +66,17 @@ const RegisterFormUser: React.FC = () => {
   return (
     <>
       <div className="container mx-auto text-center">
-        <p className="p-10 border-b border-b-gray-200 mt-10 text-blue-400">
+        <div className="text-center">
+          <div className="inline-block">
+            <Image
+              src="/assets/ChatGPT_Image_17_mag_2025__16_21_28-removebg-preview.png"
+              alt="img"
+              width={290}
+              height={140}
+            />
+          </div>
+        </div>
+        <p className="p-10 border-b border-b-gray-200 mt-6 text-blue-400">
           Welcome! If you're a junior developer or just starting your journey in
           the world of coding, you're in the right place. <br /> Fill out the
           form to create your profile you’ll be able to showcase your skills,
@@ -83,7 +93,7 @@ const RegisterFormUser: React.FC = () => {
         />
         <Image
           src="/assets/ChatGPT_Image_8_giu_2025__11_05_36-removebg-preview.png"
-          alt=""
+          alt="Image of a computer connected to a big house, representing the connection between candidates and companies"
           width={600}
           height={800}
         />

@@ -28,7 +28,7 @@ const CompanyHomeSection: React.FC = () => {
       <div className="col-span-12 text-center mt-8">
         <Link href="/company-register-page">
           <button className="bg-blue-500 text-white w-50 h-7 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer">
-            Register
+            Sign Up
           </button>
         </Link>
       </div>
